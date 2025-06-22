@@ -14,7 +14,7 @@ import java.util.Date;
 
 
 public class SistemaOfertaArreglo implements SistemaOferta{
-   
+
     private ContenedorNexoDoble contenedorNexoDoble;
     private Oferta ultimaOferta;
     private final String[] CODIGOS_TIPO_OFERTA = {"A","C","P"};
@@ -581,16 +581,16 @@ public class SistemaOfertaArreglo implements SistemaOferta{
     }
     private void escribirArchivo() throws IOException {
 
-         ArchivoSalida archivoSalida = new ArchivoSalida("OfertasAcademicas.txt");
+        ArchivoSalida archivoSalida = new ArchivoSalida("OfertasAcademicas.txt");
 
         NodoDoble aux = this.contenedorNexoDoble.getCabecera();
+
+        //formato de fecha basado en dia, mes y annio
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         while (aux != null) {
 
             Oferta oferta = aux.getOferta();
-
-            //int id, String titulo, String descripcion, String nombreUnidad, int duracionEnDias, String nombreAsignatura, String rolAyudante, int cantidadHorasSemanalMensual, float promedioMinimo
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
             if (oferta instanceof OfertaAyudantia) {
                 Registro regSalAyudantia = new Registro(10);
@@ -601,7 +601,15 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 regSalAyudantia.agregarCampo(oferta.getTitulo());
                 regSalAyudantia.agregarCampo(oferta.getDescripcion());
                 regSalAyudantia.agregarCampo(oferta.getNombreUnidad());
-                regSalAyudantia.agregarCampo(dateFormat.format(oferta.getFechaPublicacion())); // Asegúrate de que esto sea Date
+
+                // --- Corrección: Manejo de fecha de publicación nula para OfertaAyudantia ---
+                Date fechaPublicacionAyudantia = oferta.getFechaPublicacion();
+                if (fechaPublicacionAyudantia != null) {
+                    regSalAyudantia.agregarCampo(dateFormat.format(fechaPublicacionAyudantia));
+                } else {
+                    regSalAyudantia.agregarCampo(""); // Agrega cadena vacía si la fecha es nula
+                }
+
                 regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getNombreAsignatura());
                 regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getRolAyudante());
                 regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getCantidadHorasSemanalMensual());
@@ -619,23 +627,41 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 regSalCapstone.agregarCampo(oferta.getTitulo());
                 regSalCapstone.agregarCampo(oferta.getDescripcion());
                 regSalCapstone.agregarCampo(oferta.getNombreUnidad());
-                regSalCapstone.agregarCampo(dateFormat.format(oferta.getFechaPublicacion()));
+
+                //valida la fecha de publicacion antes de escribirla al archivo
+                Date fechaPublicacion = oferta.getFechaPublicacion();
+                if(fechaPublicacion != null){
+                    regSalCapstone.agregarCampo(dateFormat.format(fechaPublicacion));
+                }else{
+                    regSalCapstone.agregarCampo("");
+                }
+                //valida la fecha de publicacion antes de escribirla al archivo
                 LocalDate fechaInicio = ((OfertaCapstone) oferta).getFechaInicio();
-                Date fechaInicioDate = Date.from(fechaInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                regSalCapstone.agregarCampo(dateFormat.format(fechaInicioDate));
+                if(fechaInicio != null){
+                    Date fechaInicio_date = Date.from(fechaInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    regSalCapstone.agregarCampo(dateFormat.format(fechaInicio_date));
+                }else{
+                    regSalCapstone.agregarCampo("");
+                }
+
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getEmpresaSolicitante());
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getGuiaEmpresa());
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getTipoCapstone());
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getDuracionEnMeses());
+
                 String[] carreras = ((OfertaCapstone) oferta).getCarrerasNecesarias();
-                String carrerasNecesarias = String.join("|",carreras);
-                regSalCapstone.agregarCampo(carrerasNecesarias);
+                if(carreras != null){
+                    String carrerasNecesarias = String.join("|",carreras);
+                    regSalCapstone.agregarCampo(carrerasNecesarias);
+                }else{
+                    regSalCapstone.agregarCampo("");//cadena vacia
+                }
+
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getCantidadMinimaEstudiantes());
 
                 archivoSalida.writeRegistro(regSalCapstone);
 
-            }
-            else if(oferta instanceof OfertaPractica){
+            } else if (oferta instanceof OfertaPractica) {
                 Registro regSalPractica = new Registro(10);
 
                 String tipoOferta = "P";
@@ -644,8 +670,23 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 regSalPractica.agregarCampo(oferta.getTitulo());
                 regSalPractica.agregarCampo(oferta.getDescripcion());
                 regSalPractica.agregarCampo(oferta.getNombreUnidad());
-                regSalPractica.agregarCampo(dateFormat.format(oferta.getFechaPublicacion()));
-                regSalPractica.agregarCampo(dateFormat.format(((OfertaPractica) oferta).getFechaInicio()));
+
+                //validacion de fecha de publicacion
+                Date fechaPublicacion = oferta.getFechaPublicacion();
+                if (fechaPublicacion != null) {
+                    regSalPractica.agregarCampo(dateFormat.format(fechaPublicacion));
+                } else {
+                    regSalPractica.agregarCampo(""); // Agrega cadena vacía si la fecha es nula
+                }
+
+                //Validacion de fecha de inicio
+                LocalDate fechaInicio = ((OfertaPractica) oferta).getFechaInicio();
+                if(fechaInicio != null){
+                    Date fechaInicioDate = Date.from(fechaInicio.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    regSalPractica.agregarCampo(dateFormat.format(fechaInicioDate));
+                }else{
+                    regSalPractica.agregarCampo("");
+                }
                 regSalPractica.agregarCampo(((OfertaPractica) oferta).getEmpresaSolicitante());
                 regSalPractica.agregarCampo(((OfertaPractica) oferta).getGuiaEmpresa());
                 regSalPractica.agregarCampo(((OfertaPractica) oferta).isTieneRemuneracion());
