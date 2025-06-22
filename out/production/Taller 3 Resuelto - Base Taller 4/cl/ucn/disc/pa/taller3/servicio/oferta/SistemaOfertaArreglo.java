@@ -581,7 +581,7 @@ public class SistemaOfertaArreglo implements SistemaOferta{
     }
     private void escribirArchivo() throws IOException {
 
-        ArchivoSalida archivoSalida = new ArchivoSalida("Resultados_ofertas.txt");
+         ArchivoSalida archivoSalida = new ArchivoSalida("OfertasAcademicas.txt");
 
         NodoDoble aux = this.contenedorNexoDoble.getCabecera();
 
