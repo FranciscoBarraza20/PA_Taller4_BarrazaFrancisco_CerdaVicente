@@ -16,6 +16,11 @@ public interface SistemaUsuario {
      * Excepciones:
      * Se captura IllegalArgumenException si es que el arreglo esta completo, o si se ingresa un usuario con un rut que
      * ya esta registrado en el sistema.
+     * 
+     * @param nombre nombre que el usuario registra en el sistema
+     * @param rut rut que el usuario registra en el sistema
+     * @param correo correo que el usuario registra en el sistema
+     * @param contrasenia contrasenia que el usuario registra en el sistema
      */
     String registrarse(String nombre, String rut, String correo, String contrasenia);
 
@@ -33,6 +38,9 @@ public interface SistemaUsuario {
      *
      * Retorno:
      * true si existe un usuario que coincida las crendeciales, false si la contrasenia es incorrecta.
+     * 
+     * @param rut rut del usuario que ingresa para acceder al menu de ofertas
+     * @param contrasenia contrasenia del usuario que ingresa para acceder al menu de ofertas
      */
     boolean iniciarSesion(String rut, String contrasenia);
 
@@ -72,6 +80,9 @@ public interface SistemaUsuario {
      *
      * Excepciones:
      * Se lanza una excepcion () dado que no se puede ejecutar esta funcion si no hay usuario conectado.
+     * 
+     * @param nombre nombre del usuario que se busca editar
+     * @param correo correo del usuario que se busca editar
      */
     String editarPerfil(String nombre, String correo);
 
