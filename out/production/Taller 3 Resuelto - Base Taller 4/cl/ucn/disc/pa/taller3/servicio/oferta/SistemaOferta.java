@@ -28,6 +28,8 @@ public interface SistemaOferta {
      *
      * Postcondiciones:
      * - se agrega una nueva oferta al sistema.
+     *
+     * @param datosOferta arreglo para obtener los parametros de cada una de las ofertas
      */
     String publicarOferta(String[] datosOferta);
 
@@ -37,6 +39,8 @@ public interface SistemaOferta {
      * prerequisitos:
      * - debe exister al menos 1 oferta en el sistema.
      * - el id debe ser un numero mayor a 0.
+     *
+     * @param id codigo unico asociada a la oferta
      */
     String verOferta(String id);
 
@@ -76,6 +80,9 @@ public interface SistemaOferta {
      *
      * Postcondiciones:
      * - se actualiza la informacion de una oferta del sistema.
+     *
+     * @param id codigo unico asociada a la oferta
+     * @param datosOferta arreglo para obtener los datos de la oferta en base a posiciones
      */
     String editarOferta(String id, String[] datosOferta);
 
@@ -88,6 +95,7 @@ public interface SistemaOferta {
      *
      * postcondiciones:
      * - se elimina la oferta del sistema.
+     * @param id codigo unico asociada a la oferta
      */
     String eliminarOferta(String id);
 
