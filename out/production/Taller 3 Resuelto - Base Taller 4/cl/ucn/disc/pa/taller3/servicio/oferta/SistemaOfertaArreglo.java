@@ -14,7 +14,7 @@ import java.util.Date;
 
 
 public class SistemaOfertaArreglo implements SistemaOferta{
-    //private List<Oferta> listaOfertas;
+   
     private ContenedorNexoDoble contenedorNexoDoble;
     private Oferta ultimaOferta;
     private final String[] CODIGOS_TIPO_OFERTA = {"A","C","P"};
