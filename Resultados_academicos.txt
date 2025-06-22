@@ -1,0 +1,8 @@
+P,8,Práctica en Minería de Datos,Análisis de datos para optimización de procesos,DIE,22-06-2025,05-07-2025,DataChile SpA,Ing. Carolina Ruiz,true
+C,7,Desarrollo de App de Salud Mental,Aplicación móvil para acompañamiento psicológico,DISC,22-06-2025,15-07-2025,MindCare,Dr. Felipe Zamora,Capstone,5,Psicología|Informática,2
+A,6,Ayudante de Cálculo,Resolución de dudas y apoyo en clases de cálculo diferencial,DIM,22-06-2025,Cálculo I,Ayudante Teórico,6,5.800000190734863
+P,5,Práctica Profesional de Redes,Instalación y mantenimiento de redes de datos,DISC,22-06-2025,10-06-2025,NetSolutions,Ing. Pedro Salinas,true
+P,4,Práctica Desarrollo Web,Apoyo en desarrollo de sitios web y aplicaciones frontend,DISC,22-06-2025,01-07-2025,SoftWeb Ltda.,Dra. Elena Castillo,false
+C,3,Sistema de Monitoreo Ambiental,Desarrollo de un sistema de sensores ambientales,DISC,22-06-2025,01-08-2025,EcoTech Ltda.,Dr. Ricardo Núñez,Capstone,6,Informática|Electrónica|Civil Informática,3
+A,2,Monitor de Programación,Asistencia a estudiantes en laboratorio de programación,DISC,22-06-2025,Programación I,Monitor de Ayudantía,8,6.0
+A,1,Asistente de Laboratorio,Apoyo en el laboratorio de electrónica,DIE,22-06-2025,Electrotécnia,Ayudante de Laboratorio,10,5.5
