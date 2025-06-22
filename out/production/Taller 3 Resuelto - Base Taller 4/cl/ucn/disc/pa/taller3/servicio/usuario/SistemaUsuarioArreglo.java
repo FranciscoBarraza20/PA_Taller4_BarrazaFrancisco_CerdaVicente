@@ -168,7 +168,7 @@ public class SistemaUsuarioArreglo implements SistemaUsuario {
 
     private void escribirArchivo() throws IOException {
 
-        ArchivoSalida archivoSalida = new ArchivoSalida("Resultado_usuarios.txt");
+        ArchivoSalida archivoSalida = new ArchivoSalida("Usuarios.txt");
 
         Nodo aux = this.contenedorNexoSimple.getCabecera();
 
