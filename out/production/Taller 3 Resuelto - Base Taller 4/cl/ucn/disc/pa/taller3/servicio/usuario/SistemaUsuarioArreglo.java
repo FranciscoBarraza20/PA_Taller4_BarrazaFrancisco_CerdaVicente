@@ -175,12 +175,13 @@ public class SistemaUsuarioArreglo implements SistemaUsuario {
         while (aux != null){
 
             Usuario usuario = aux.getUsuario();
-            Registro regSal = new Registro(3);
+            Registro regSal = new Registro(4);
 
             regSal.agregarCampo(usuario.getNombre());
             regSal.agregarCampo(usuario.getRut());
             regSal.agregarCampo(usuario.getCorreo());
-
+             regSal.agregarCampo(usuario.getContrasenia());
+            
             archivoSalida.writeRegistro(regSal);
             aux = aux.getSiguiente();
         }
