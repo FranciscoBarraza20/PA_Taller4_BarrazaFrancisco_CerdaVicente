@@ -1,0 +1,253 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package cl.ucn.disc.pa.taller3 as taller3{
+
+    package dominio{
+
+        package colecciones{
+
+            class Nodo{
+                -usuario: Usuario
+                -siguiente: Nodo
+                +Nodo(usuario: Usuario)
+                +gets()
+                +setSiguiente(siguiente: Nodo): void
+
+            }
+            class NodoDoble{
+
+                -oferta: Oferta
+                -siguiente: NodoDoble
+                -cola: NodoDoble
+                +NodoDoble(oferta: Oferta)
+                +gets()
+                +setSiguiente(siguiente: NodoDoble): void
+                +setAnterior(anterior: NodoDoble): void
+
+            }
+            class ContenedorNexoSimple{
+
+                -cabecera: Nodo
+                -tamanio: int
+                +contenedorNexoSimple()
+                +gets()
+                setCabecera(cabecera: Nodo): void
+                +agregarUsuario(usuario: Usuario): void
+                +obtenerPosicion(rut: String): int
+                +obtenerUsuario(posicion: int): Usuario
+
+            }
+            class ContenedorNexoDoble{
+
+                -cabecera: NodoDoble
+                -cola: NodoDoble
+                -tamanio: int
+                +contenedorNexoDoble()
+                +gets()
+                +setCabecera(cabecera: NodoDoble): void
+                +setCola(cola: NodoDoble): void
+                +agregarOferta(oferta: Oferta): void
+                +eliminar(oferta: Oferta): boolean
+                +eliminarNodo(nodoDoble: NodoDoble)
+
+            }
+        }
+        package oferta{
+
+            class Oferta{
+
+                -id: int
+                -titulo: String
+                -descripcion: String
+                -fechaPublicacion: Date
+                -fechaCierre: Date
+                -nombreUnidad: String
+                +Oferta(id: int,titulo: String,descripcion: String,fechaPublicacion: Date,fechaCierre: Date,nombreUnidad: String,duracionEnDias: int)
+                +asignarFechas(duracionEnDias: int): void
+                +gets()
+                +setTitulo(titulo: String): void
+                +setDescripcion(descripcion: String): void
+                +setFechaPublicacion(fechaPublicacion: Date): void
+                +setFechaCierre(fechaCierre: Date): void
+                +setNombreUnidad(nombreUnidad: String): void
+                +equals(obj : Object): boolean
+
+
+            }
+            class OfertaActividad{
+
+                -fechaInicio: LocalDate
+                -empresaSolicitante: String
+                -guiaEmpresa: String
+                +OfertaActividad(fechaInicio: LocalDate,empresaSolicitante: String,guiaEmpresa: String)
+                +gets()
+                +setFechaInicio(fechaInicio: LocalDate): void
+                +setEmpresaSolicitante(empresaSolicitante: String): void
+                +setGuiaEmpresa(guiaEmpresa: String): void
+
+            }
+            class OfertaAyudantia{
+
+                 -nombreAsignatura: String
+                 -rolAyudante: String
+                 -cantidadHorasSemanalMensual: int
+                 -promedioMinimo: float
+                 +OfertaAyudantia( nombreAsignatura: String,rolAyudante: String,cantidadHorasSemanalMensual: int,promedioMinimo: float)
+                 +gets()
+                 +setNombreAsignatura(nombreAsignatura: String): void
+                 +setRolAyudante(rolAyudante: String): void
+                 +setCantidadHorasSemanalMensual(cantidadHorasSemanalMensual: int): void
+                 +setPromedioMinimo(promedioMinimo: float): void
+
+
+            }
+            class OfertaCapstone{
+
+                -tipoCapstone: String
+                -duracionEnMeses: int
+                -carrerasNecesarias: String[]
+                -cantidadMinimaEstudiantes: int
+                +OfertaCapstone( tipoCapstone: String,duracionEnMeses: int,carrerasNecesarias: String[],cantidadMinimaEstudiantes: int)
+                +gets()
+                +sets()
+
+            }
+            class OfertaPractica{
+
+                -DURACION_EN_MESES: int
+                -tieneRemuneracion: boolean
+                +OfertaPractica(tieneRemuneracion: boolean)
+                +isTieneRemuneracion(): boolean
+                +setTieneRemuneracion(tieneRemuneracion: boolean): void
+
+            }
+        }
+        package usuario{
+
+            class Usuario{
+
+            -nombre: String
+            -rut: String
+            -correo: String
+            -contrasenia: String
+            +Usuario(nombre: String,rut: String,correo: String,contrasenia: String)
+            +gets()
+            +setNombre(nombre: String): void
+            +setCorreo(correo: String): void
+
+            }
+        }
+    }
+
+
+    package servicios{
+
+
+        package oferta{
+
+            interface SistemaOferta{
+
+            +publicarOferta(datosOferta: String[] ): String
+            +verOferta(id: String): String
+            +verTodasLasOfertas(): String
+            +editarOferta(id: String,datosOferta: String[]): String
+            +eliminarOferta(id: String,datosOferta: String[]): String
+            +persistenciaOfertas(): void
+
+            }
+            class SistemaOfertaArreglo{
+
+                -contenedorNexoDoble: ContenedorNexoDoble
+                -ultimaOferta: Oferta
+                -lecturaArchivo(): void
+                -escribirArchivo(): void
+            }
+
+        }
+
+        package usuario{
+
+
+            interface SistemaUsuario{
+
+                +registrarse(nombre: String,rut: String,correo: String,contrasenia: String): String
+                +iniciarSesion(rut: String, contrasenia: String): boolean
+                +cerrarSesion(): String
+                +verPerfil(): String
+                +editarPerfil(nombre: String,correo: String): String
+                +persistenciaUsuarios(): void
+
+            }
+
+            class SistemaUsuarioArreglo{
+
+                -contenedorNexoSimple: ContenedorNexoSimple
+                -usuarioConectado: Usuario
+                -lecturaArchivo(): void
+                -escribirArchivo(): void
+
+            }
+        }
+    }
+
+    package utilidades{
+
+        class ValidadorEntrada{
+            +{static}validarEntero(frase: String): int
+
+        }
+        class ValidadorFecha{
+            +{static}esFechaValida(fechaStr: String): boolean
+            +{static}convertirFecha(fechaStr: String): LocalDate
+
+        }
+        class ValidadorRut{
+            +{static}VerificarRut(rutCompleto: String): boolean
+            -{static}calcularDV(rut: String): char
+        }
+    }
+
+    package vista{
+
+        class VistaConsola{
+
+        -sistemaUsuario: SistemaUsuario
+        -sistemaOferta: SistemaOferta
+        +VistaConsola(sistemaUsuario: SistemaUsuario,sistemaOferta: SistemaOferta):
+        +iniciar(): void
+
+        }
+    }
+}
+'dominio'
+Oferta --|> OfertaActividad
+Oferta --|> OfertaAyudantia
+OfertaActividad --|> OfertaCapstone
+OfertaActividad --|> OfertaPractica
+
+
+'colecciones'
+Nodo --> Usuario
+NodoDoble --> Oferta
+
+ContenedorNexoSimple --> Nodo
+ContenedorNexoDoble --> NodoDoble
+
+'servicios'
+SistemaOferta <|.. SistemaOfertaArreglo
+SistemaUsuario <|.. SistemaUsuarioArreglo
+
+Usuario --o SistemaUsuarioArreglo
+Oferta --o SistemaOfertaArreglo
+
+'vista'
+SistemaUsuario --* VistaConsola
+SistemaOferta --* VistaConsola
+
+'utilidades'
+VistaConsola --> ValidadorEntrada
+VistaConsola --> ValidadorFecha
+VistaConsola --> ValidadorRut
+
+@enduml
