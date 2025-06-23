@@ -36,17 +36,14 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-
         // caso: ayudantia
         if (datosOferta[0].equalsIgnoreCase(this.CODIGOS_TIPO_OFERTA[0])) {
             return this.publicarOfertaAyudantia(datosOferta);
         }
-
         // caso: capstone
         if (datosOferta[0].equalsIgnoreCase(this.CODIGOS_TIPO_OFERTA[1])) {
             return this.publicarOfertaCapstone(datosOferta);
         }
-
         // caso: practica
         return this.publicarOfertaPractica(datosOferta);
     }
@@ -57,13 +54,10 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         if (this.contenedorNexoDoble.getTamanio() == 0) {
             return "La lista esta vacia";
         }
-
         int id = -1;
-
         try {
             id = Integer.parseInt(idTitulo);
         } catch (NumberFormatException _) {
-
         }
 
         if (this.ultimaOferta != null && (this.ultimaOferta.getId() == id || this.ultimaOferta.getTitulo().equalsIgnoreCase(idTitulo))) {
@@ -71,7 +65,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         }
         //obtiene la cabecera del nodo
         NodoDoble aux = this.contenedorNexoDoble.getCabecera();
-
         //validasi el nodo es nulo
         if(aux == null){
             return "La oferta no puede ser nula";
@@ -83,7 +76,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
             this.ultimaOferta = oferta;
 
             if(ultimaOferta.getId() == id || ultimaOferta.getTitulo().equals(idTitulo)){
-
                 return this.ultimaOfertaInfo();
             }
             aux = aux.getSiguiente();
@@ -128,7 +120,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (NumberFormatException e) {
             return "El id no corresponde a un numero.";
         }
-
         Oferta ofertaQueSeEdita = buscarOferta(id_validada);
 
         try {
@@ -136,35 +127,30 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-
         // caso: ayudantia
         if (datosOferta[0].equalsIgnoreCase(this.CODIGOS_TIPO_OFERTA[0]) && ofertaQueSeEdita instanceof OfertaAyudantia) {
             return this.editarOfertaAyudantia(datosOferta, ofertaQueSeEdita);
         }
-
         // caso: capstone
         if (datosOferta[0].equalsIgnoreCase(this.CODIGOS_TIPO_OFERTA[1]) && ofertaQueSeEdita instanceof OfertaCapstone) {
             return this.editarOfertaCapstone(datosOferta, ofertaQueSeEdita);
         }
-
         // caso: practica
         if (ofertaQueSeEdita instanceof OfertaPractica) {
             return this.editarOfertaPractica(datosOferta, ofertaQueSeEdita);
         }
-
         return "La oferta con la id " + id + ", no corresponde con el tipo de oferta declarado";
     }
 
     @Override
     public String eliminarOferta(String id) {
-        int idOferta;
 
+        int idOferta;
         try {
             idOferta = Integer.parseInt(id);
         } catch (NumberFormatException e) {
             return "El id no corresponde a un numero.";
         }
-
         NodoDoble aux = this.contenedorNexoDoble.getCabecera();
 
         while (aux != null){
@@ -172,7 +158,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
             Oferta oferta = aux.getOferta();
 
             if(oferta.getId() == idOferta){//si la id asociada a la oferta es igual a la id dada por parametro
-
                 this.contenedorNexoDoble.eliminar(oferta);//se elimina la oferta
 
                 if(this.ultimaOferta != null && this.ultimaOferta == oferta){
@@ -182,7 +167,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
             }
             aux = aux.getSiguiente();//pasa al siguinte
         }
-
         return "La oferta con el id: " + id + ", no existe.";
     }
 
@@ -285,14 +269,14 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-
         int ultimaID = this.contenedorNexoDoble.getTamanio()+1;
         // se crea la oferta de capstone
-        Oferta nueva = new OfertaCapstone(ultimaID, datosOferta[1], datosOferta[2], datosOferta[3], Integer.parseInt(datosOferta[4]), ValidadorFecha.convertirFecha(datosOferta[5]), datosOferta[6], datosOferta[7], datosOferta[8], Integer.parseInt(datosOferta[9]), this.obtenerCarreras(datosOferta), Integer.parseInt(datosOferta[11]));
+        Oferta nueva = new OfertaCapstone(ultimaID, datosOferta[1], datosOferta[2], datosOferta[3], Integer.parseInt(datosOferta[4]), ValidadorFecha.convertirFecha(datosOferta[5]), datosOferta[6],
+                datosOferta[7], datosOferta[8], Integer.parseInt(datosOferta[9]), this.obtenerCarreras(datosOferta), Integer.parseInt(datosOferta[11]));
         // se agrega la oferta a la lista
         this.contenedorNexoDoble.agregarOferta(nueva);
 
-        return "La oferta de Capstone Project fue agregada con exito";
+        return "La oferta de Capstone Project fue agregada con exito , y la id es "+(this.contenedorNexoDoble.getTamanio());
     }
 
     private String publicarOfertaPractica(String[] datosOferta) {
@@ -301,13 +285,21 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-        int ultimaID = this.contenedorNexoDoble.getTamanio()+1;
-
-        Oferta nueva = new OfertaAyudantia(ultimaID, datosOferta[1], datosOferta[2], datosOferta[3], Integer.parseInt(datosOferta[4]), datosOferta[5], datosOferta[6], Integer.parseInt(datosOferta[7]), Float.parseFloat(datosOferta[8]));
+        Oferta nueva = getOferta(datosOferta);
         // se agrega la oferta
         this.contenedorNexoDoble.agregarOferta(nueva);
 
-        return "Se ha agregado la oferta con exito";
+        return "Se ha agregado la oferta con exito , y la id es "+(this.contenedorNexoDoble.getTamanio());
+    }
+
+    private Oferta getOferta(String[] datosOferta) {
+        int ultimaID = this.contenedorNexoDoble.getTamanio()+1;
+
+        //int id, String titulo, String descripcion, String nombreUnidad, int duracionEnDias, LocalDate fechaInicio, String empresaSolicitante, String guiaEmpresa, boolean tieneRemuneracion
+
+        Oferta nueva = new OfertaPractica(ultimaID, datosOferta[1], datosOferta[2], datosOferta[3], Integer.parseInt(datosOferta[4]),ValidadorFecha.convertirFecha(datosOferta[5]),
+                datosOferta[6], datosOferta[7], datosOferta[8].equalsIgnoreCase("si"));
+        return nueva;
     }
 
     private String[] obtenerCarreras(String[] datosOferta) {
@@ -341,7 +333,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-
         // se edita la oferta
         this.editarSeccion(datosOferta, oferta);
         this.editarSeccion(datosOferta, (OfertaAyudantia) oferta);
@@ -581,11 +572,10 @@ public class SistemaOfertaArreglo implements SistemaOferta{
     }
     private void escribirArchivo() throws IOException {
 
-         ArchivoSalida archivoSalida = new ArchivoSalida("Resultados_academicos.txt");
+        ArchivoSalida archivoSalida = new ArchivoSalida("Resultados_academicos.txt");
 
         NodoDoble aux = this.contenedorNexoDoble.getCabecera();
-
-        //formato de fecha basado en dia, mes y annio
+        //formato de fecha basado en dia, mes y anio
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         while (aux != null) {
@@ -610,10 +600,10 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                     regSalAyudantia.agregarCampo(""); // Agrega cadena vacía si la fecha es nula
                 }
 
-                regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getNombreAsignatura());
-                regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getRolAyudante());
-                regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getCantidadHorasSemanalMensual());
-                regSalAyudantia.agregarCampo(((OfertaAyudantia) oferta).getPromedioMinimo());
+                regSalAyudantia.agregarCampo(((OfertaAyudantia)oferta).getNombreAsignatura());
+                regSalAyudantia.agregarCampo(((OfertaAyudantia)oferta).getRolAyudante());
+                regSalAyudantia.agregarCampo(((OfertaAyudantia)oferta).getCantidadHorasSemanalMensual());
+                regSalAyudantia.agregarCampo(((OfertaAyudantia)oferta).getPromedioMinimo());
 
                 archivoSalida.writeRegistro(regSalAyudantia);
 
@@ -627,7 +617,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 regSalCapstone.agregarCampo(oferta.getTitulo());
                 regSalCapstone.agregarCampo(oferta.getDescripcion());
                 regSalCapstone.agregarCampo(oferta.getNombreUnidad());
-
                 //valida la fecha de publicacion antes de escribirla al archivo
                 Date fechaPublicacion = oferta.getFechaPublicacion();
                 if(fechaPublicacion != null){
@@ -643,7 +632,6 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 }else{
                     regSalCapstone.agregarCampo("");
                 }
-
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getEmpresaSolicitante());
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getGuiaEmpresa());
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getTipoCapstone());
@@ -656,9 +644,7 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 }else{
                     regSalCapstone.agregarCampo("");//cadena vacia
                 }
-
                 regSalCapstone.agregarCampo(((OfertaCapstone) oferta).getCantidadMinimaEstudiantes());
-
                 archivoSalida.writeRegistro(regSalCapstone);
 
             } else if (oferta instanceof OfertaPractica) {
@@ -689,7 +675,16 @@ public class SistemaOfertaArreglo implements SistemaOferta{
                 }
                 regSalPractica.agregarCampo(((OfertaPractica) oferta).getEmpresaSolicitante());
                 regSalPractica.agregarCampo(((OfertaPractica) oferta).getGuiaEmpresa());
-                regSalPractica.agregarCampo(((OfertaPractica) oferta).isTieneRemuneracion());
+
+                String respuesta = "";
+
+                if(((OfertaPractica) oferta).isTieneRemuneracion()){
+                    respuesta = "Si";
+                }else{
+                    respuesta = "No";
+                }
+                regSalPractica.agregarCampo(respuesta);
+
                 archivoSalida.writeRegistro(regSalPractica);
 
             }
